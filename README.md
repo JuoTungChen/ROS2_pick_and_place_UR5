@@ -217,3 +217,17 @@ The package provides the following executables:
     auto pnp_result = pnpc->pnp_call(pick_goal, place_goal);
     pnp_executor.spin_until_future_complete(pnp_result);
     ```
+
+
+## Robotiq Description
+
+This package basically is just the ROS2 version of the following package: [robotiq](https://github.com/filesmuggler/robotiq)  
+It contains the urdf and meshes for the robotiq gripper. 
+
+## UR5 Gripper Description
+
+This package combines the urdf of UR5 with the urdf of the robotiq gripper.
+It attaches the gripper at the tool0 of the UR5. 
+<p align="center">
+<img src="https://github.com/JuoTungChen/ROS2_pick_and_place_UR5/blob/master/ur5_gripper_description/ur5_gripper.png" width="700">
+
