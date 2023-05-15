@@ -3,38 +3,59 @@
 
 This repo provides ROS2 packages for initiating a pick-and-place service for the UR5 Robotic Manipulator combining a Robotiq85 2 DoF gripper.
 
-It is part of the following project: [__`AR pick and place with UR5`__](https://github.com/vishnukolal/rsp_project)
+__It is part of the following project:__  [__`AR pick and place with UR5`__](https://github.com/vishnukolal/rsp_project)
 
-</br>
 
-### Prerequisites
+## Prerequisites
 
 The following Linux version as well as the ROS distribution is required:
 
 - Ubuntu 20.04 / ROS 2 Galactic Geochelone
 
+
 </br>
 
 ## Packages
-1. __moveit_ur5_interface__
-2. __moveit_ur5_msgs__
-3. __pnp_actionlib__
-4. __pnp_msgs__
+1. __moveit_ur5_msgs__
+2. __moveit_ur5_interface__
+3. __pnp_msgs__
+4. __pnp_actionlib__
 5. __robotiq_description__
 6. __ur5_gripper_description__
 7. __ur5_gripper_moveit_config__
 
 </br>
 
-## Moveit UR5 Interface
-
-This package provides a service/client interface between the official Universal Robots ROS2 Driver and the Moveit2 API. The package takes position commands in the form of geometry_msgs/msg/Pose via ROS2 service and generates a trajectory. It then uses the UR5 ROS2 driver to control the robot and follow the trajectory.
+## Installation
+- To control the UR5, the official [UR5 driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/tree/galactic) needs to be installed.
+- To control the gripper, the official [gripper driver](https://github.com/sequenceplanner/robotiq_2f.git) needs to be installed.
 
 </br>
 
+
+## Moveit UR5 msgs
+
+This package provides a custom service type to request trajectory planning from Moveit2. 
+
+The message moveit_ur5_msgs/srv/PlanRequest has the following format: 
+
+```
+geometry_msgs/Pose target 
+
+--- 
+
+string result 
+```
+
+</br>
+
+## Moveit UR5 Interface
+
+This package provides a service/client interface between the official Universal Robots ROS2 Driver and the Moveit2 API. The package takes position commands through the custom service `moveit_ur5_msgs` described above and generates a trajectory for the robot using Moveit2. It then uses the UR5 ROS2 driver to control the robot and follow the trajectory.
+
 ### Launch Files
 
-The package provides the following launch file:
+The package provides the following launch files:
 
 1. __`ros2 launch moveit_ur5_interface moveit_ur5_interface_sim.launch`__  
 This launch file is used when you don't have the actual UR5 and want to see it in simulation. It starts the UR5 driver with fake hardware controller and the Moveit2 server. It launches the UR5 Moveit configuration with the gripper attached to the end effector and opens Rviz. You can call services or run a client node that publishes the target pose to move the robot to anywhere you want.
@@ -45,7 +66,6 @@ It starts up the UR5 driver and the Moveit2 server with custom settings. It laun
 To connect to a real UR5, you can follow this instruction: [__Setting up a UR robot for ur_robot_driver__](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/blob/galactic/ur_robot_driver/doc/installation/robot_setup.rst)  
 After finishing setting up the robot, you can run the launch file, and press the play button on the pendant.
 
-</br>
 
 ### Executables
 
@@ -76,8 +96,6 @@ The package provides the following executables:
     ```  
     This is an simple example of using the Moveit C++ API to control the UR5. It uses the move group to plan and execute a path for the UR5. It does the same thing as moveit_server but without the ability to initiate a planning request from the client.
 
-</br>
-
 
 ### Usage
 
@@ -95,4 +113,107 @@ The package provides the following executables:
     ros2 launch moveit_ur5_interface moveit_ur5_interface.launch 
 
     ros2 run moveit_ur5_interface moveit_cli_node
+    ```
+</br>
+
+## PNP msgs
+
+This package provides a custom action message type to request a pick-and-place action for the robot. 
+
+There are three action messages in this package:
+
+1. __`Robot.action`__:  
+a. __Goal__: A geometry_msgs/Pose indicating the target pose of the robot
+b. __Result__: A string that specifies a success or failure of the robot action. 
+c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the robot’s motion (0 at the beginning and 1 when completed).
+
+2. __`Gripper.action`__:
+a. __Goal__: A string that indicates if the gripper must open or close.
+b. __Result__: A string that specifies a success or failure of the gripper action. 
+c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the gripper’s motion (0 at the beginning and 1 when completed).
+
+3. __`PickAndPlace.action`__:  
+a. __Goal__: There are two entries. One corresponds to a target pose where the robot must pick the object (a geometry_msgs/Pose that can be passed to Robot.action). The other corresponds to a target pose where the robot must place the object (also a geometry_msgs/Pose).  
+b. __Result__: A string that specifies a success or failure of the pnp action.  
+c. __Feedback__: A string that indicates if
+    1. the robot is moving to pick the object 
+    2. closing the gripper
+    3. moving to place the object  
+    4. opening the gripper.
+
+</br>
+
+
+## PNP actionlib
+This package provides a action for initiating a pick-and-place task for the UR5 manipulator. 
+
+### Launch Files
+
+The package provides the following launch files:
+
+1. __`ros2 launch pnp_actionlib ur5_pnp_actionlib_sim.launch`__  
+This launch file is used when you don't have the actual UR5 and want to see it in simulation. It launches the `moveit_ur5_interface_sim.launch` and starts the pnp server that waits for action calls to initiate a pnp action service.
+ 
+2. __`ros2 launch pnp_actionlib ur5_pnp_actionlib.launch`__  
+This launch file is used when you want to actually control a real UR5. 
+It launches the `moveit_ur5_interface.launch` and starts the pnp server that  waits for action calls to initiate a pnp action service.  
+To connect to a real UR5, you can follow this instruction: [__Setting up a UR robot for ur_robot_driver__](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/blob/galactic/ur_robot_driver/doc/installation/robot_setup.rst)  
+After finishing setting up the robot, you can run the launch file, and press the play button on the pendant.
+
+
+### Executables
+
+The package provides the following executables:
+
+1. __pnp_server.cpp__  
+    ```
+    ros2 run pnp_actinlib server
+    ```
+    This node initiates a action server waits for action calls to initiate a pnp action service.
+
+
+2. __pnp_client.cpp__  
+    ```
+    ros2 run pnp_actinlib client
+    ```  
+    This is an example client node that sends a action request to the pnp_server.cpp. It constructs and sends a request to the server by calling the following function:
+    ```
+    pnp_call(const geometry_msgs::msg::Pose &pick_destination, const geometry_msgs::msg::Pose &place_destination)
+    ```
+
+### Usage
+
+1. To send a pnp request from the command line, use the following commands:
+
+    ```
+    ros2 launch pnp_actionlib ur5_pnp_actionlib.launch
+
+    ros2 action send_goal /pnp pnp_msgs/action/PickAndPlace "{pick_goal:{position: {x: 0.3, y: 0.4, z: 0.3}, orientation: {x: -1.0, y: 0.0, z: 0.0, w: 0.0}}, place_goal:{position: {x: -0.2, y: 0.4, z: 0.3}, orientation: {x: -1.0, y: 0.0, z: 0.0, w: 0.0}}}"
+    ```
+
+2. To send a plan request from the client node, modify the pick_goal and place_goal within the pnp_client.cpp file and use the following commands:
+
+    ```
+    ros2 launch pnp_actionlib ur5_pnp_actionlib.launch
+
+    ros2 run pnp_actinlib client
+    ```
+
+3. To send a planning request within your own function, just include the following headers in your code:
+
+    ```
+    #include <pnp_actionlib/pnp_action.hpp>
+    #include <pnp_actionlib/robot_action.hpp>
+    #include <pnp_actionlib/gripper_action.hpp>
+    ```
+    Then, create a client node:
+    ```
+    auto pnpc = std::make_shared<rsp::pnp_client>("pnp");
+    rclcpp::executors::MultiThreadedExecutor pnp_executor;
+    pnp_executor.add_node(pnpc);
+    ```
+    Finally, call the pnp_call function and spin the node to start the pnp action:
+    ```
+    auto pnp_result = pnpc->pnp_call(pick_goal, place_goal);
+    pnp_executor.spin_until_future_complete(pnp_result);
     ```
