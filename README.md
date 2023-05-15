@@ -226,8 +226,8 @@ It contains the urdf and meshes for the robotiq gripper.
 
 ## UR5 Gripper Description
 
-This package combines the urdf of UR5 with the urdf of the robotiq gripper.
-It attaches the gripper at the tool0 of the UR5. 
+This package combines the urdf of UR5 with the robotiq gripper.
+It attaches the gripper at the tool0 frame of the UR5. 
 <p align="center">
 <img src="https://github.com/JuoTungChen/ROS2_pick_and_place_UR5/blob/master/ur5_gripper_description/ur5_gripper.png" width="400">
 
