@@ -262,16 +262,16 @@ This launch file launches the moveit_config for the UR5 robot with a robotiq gri
 
 ### Usage 
 
-First launch the following launch file to spawn the controller for the robot.
-
+First launch the following launch file to spawn the controller for the robot.  
     ```
     ros2 launch ur_bringup ur_control.launch.py ur_type:=ur5e robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true launch_rviz:=false initial_joint_controller:=joint_trajectory_controller
-    ```
-After that, launch the moveit_config using the following command:
+    ```  
 
+After that, launch the moveit_config using the following command:  
     ```
     ros2 launch ur5_gripper_moveit_config ur5_gripper_moveit.launch.py
-    ```
+    ```  
+    
 You can now use the interactive marker to drag around the end effector to desired pose and plan and execute the motion for the robot. 
 
 </br>
