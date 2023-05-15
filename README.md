@@ -19,7 +19,7 @@ The following Linux version as well as the ROS distribution is required:
 3. __`pnp_msgs`__ - custom message package containing three action messages for pnp action.
 4. __`pnp_actionlib`__ - implementation of a pnp action service for the UR5 robot.
 5. __`robotiq_description`__ - description files for the robotiq gripper: meshes, URDF/XACRO files, etc.
-6. __`ur5_gripper_description`__ - description files for the UR5 combined with the gripper: meshes, URDF/XACRO files, etc.
+6. __`ur5_gripper_description`__ - description files for the UR5 combined with the gripper.
 7. __`ur5_gripper_moveit_config`__ - MoveIt configuration for UR5 with the gripper.
 
 </br>
@@ -258,8 +258,21 @@ This package contains the srdf for the UR5 with a robotiq gripper as a end effec
 ### Launch Files
 
 1. __`ros2 launch ur5_gripper_moveit_config ur5_gripper_moveit.launch.py`__  
-This launch file launches the moveit_config for the UR5 robot with a robotiq gripper as its end effector. Make sure you launch it after you launch the following launch file to spawn the controller for the robot. After that, you can use the interactive marker to drag around the end effector to desired pose and plan and execute the motion for the robot. 
+This launch file launches the moveit_config for the UR5 robot with a robotiq gripper as its end effector.
+
+### Usage 
+
+First launch the following launch file to spawn the controller for the robot.
+
     ```
     ros2 launch ur_bringup ur_control.launch.py ur_type:=ur5e robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true launch_rviz:=false initial_joint_controller:=joint_trajectory_controller
     ```
+After that, launch the moveit_config using the following command:
+
+    ```
+    ros2 launch ur5_gripper_moveit_config ur5_gripper_moveit.launch.py
+    ```
+You can now use the interactive marker to drag around the end effector to desired pose and plan and execute the motion for the robot. 
+
+</br>
 
