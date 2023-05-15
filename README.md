@@ -8,21 +8,19 @@ __It is part of the following project:__  [__`AR pick and place with UR5`__](htt
 
 ## Prerequisites
 
-The following Linux version as well as the ROS distribution is required:
-
+The following Linux version as well as the ROS distribution is required:  
 - Ubuntu 20.04 / ROS 2 Galactic Geochelone
-
 
 </br>
 
-## Packages
-1. __moveit_ur5_msgs__
-2. __moveit_ur5_interface__
-3. __pnp_msgs__
-4. __pnp_actionlib__
-5. __robotiq_description__
-6. __ur5_gripper_description__
-7. __ur5_gripper_moveit_config__
+## Packages in the Repository:
+1. __`moveit_ur5_msgs`__ - custom message package containing one srv message for moveit_ur5_interface.
+2. __`moveit_ur5_interface`__ - a service/client interface to control the UR5 robot using moveit2.
+3. __`pnp_msgs`__ - custom message package containing three action messages for pnp action.
+4. __`pnp_actionlib`__ - implementation of a pnp action service for the UR5 robot.
+5. __`robotiq_description`__ - description files for the robotiq gripper: meshes, URDF/XACRO files, etc.
+6. __`ur5_gripper_description`__ - description files for the UR5 combined with the gripper: meshes, URDF/XACRO files, etc.
+7. __`ur5_gripper_moveit_config`__ - MoveIt configuration for UR5 with the gripper.
 
 </br>
 
@@ -126,6 +124,9 @@ The package provides the following executables:
 
     ros2 run moveit_ur5_interface moveit_cli_node
     ```
+
+__NOTE__: After launching the moveit_ur5_interface.launch, be sure to close the joint_state_publisher_gui before executing the motion of the robot. (The joint_state_publisher_gui is there just to avoid move_group complaining about missing joint state for the gripper.)
+
 </br>
 
 ## PNP msgs
