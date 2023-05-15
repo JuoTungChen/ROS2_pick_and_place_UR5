@@ -27,8 +27,20 @@ The following Linux version as well as the ROS distribution is required:
 </br>
 
 ## Installation
-- To control the UR5, the official [UR5 driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/tree/galactic) needs to be installed.
-- To control the gripper, the official [gripper driver](https://github.com/sequenceplanner/robotiq_2f.git) needs to be installed.
+- First you'll need to clone this repo into the src folder of your workspace
+    ```
+    cd <COLCON_WS>/src
+    git clone https://github.com/JuoTungChen/ROS2_pick_and_place_UR5.git
+    ```
+
+- To control the UR5, the official [UR5 driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/tree/galactic) needs to be installed.  
+You can install it by running the following command:  
+    ```
+    vcs import src < galactic.repos
+    ```
+
+- To control the gripper, the official [gripper driver](https://github.com/sequenceplanner/robotiq_2f.git) needs to be installed.  
+You can follow this link to setup the driver for the gripper: [gripper driver installation guide](https://github.com/vishnukolal/rsp_project/blob/main/src/README_gripper_instruction.md)
 
 </br>
 
@@ -218,16 +230,35 @@ The package provides the following executables:
     pnp_executor.spin_until_future_complete(pnp_result);
     ```
 
+</br>
 
 ## Robotiq Description
 
 This package basically is just the ROS2 version of the following package: [robotiq](https://github.com/filesmuggler/robotiq)  
 It contains the urdf and meshes for the robotiq gripper. 
 
+</br>
+
 ## UR5 Gripper Description
 
 This package combines the urdf of UR5 with the robotiq gripper.
-It attaches the gripper at the tool0 frame of the UR5. 
+It attaches the gripper at the tool0 frame of the UR5. And a frame __ee_link__ was created at the center of the gripper so that we can use moveit2 to do cartesian planning with respect to this frame.
+
 <p align="center">
 <img src="https://github.com/JuoTungChen/ROS2_pick_and_place_UR5/blob/master/ur5_gripper_description/ur5_gripper.png" width="400">
+
+
+</br>
+
+## UR5 Gripper Moveit Config
+
+This package contains the srdf for the UR5 with a robotiq gripper as a end effector. 
+
+### Launch Files
+
+1. __`ros2 launch ur5_gripper_moveit_config ur5_gripper_moveit.launch.py`__  
+This launch file launches the moveit_config for the UR5 robot with a robotiq gripper as its end effector. Make sure you launch it after you launch the following launch file to spawn the controller for the robot. After that, you can use the interactive marker to drag around the end effector to desired pose and plan and execute the motion for the robot. 
+    ```
+    ros2 launch ur_bringup ur_control.launch.py ur_type:=ur5e robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true launch_rviz:=false initial_joint_controller:=joint_trajectory_controller
+    ```
 
