@@ -1,0 +1,9 @@
+# goal
+geometry_msgs/Pose pick_goal
+geometry_msgs/Pose place_goal
+---
+# result
+string pnp_result
+---
+# feedback
+string pnp_message

@@ -1,0 +1,8 @@
+# goal
+string gripper_goal
+---
+# result
+string gripper_result
+---
+# feedback
+float64 gripper_progress

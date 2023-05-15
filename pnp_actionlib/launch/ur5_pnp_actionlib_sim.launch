@@ -1,0 +1,10 @@
+<launch>
+
+    <include file="$(find-pkg-share moveit_ur5_interface)/launch/moveit_ur5_interface_sim.launch">
+    </include>
+
+    <node pkg="pnp_actionlib" exec="server" name="ur5_pnp_action_server" output="screen"
+           launch-prefix="bash -c 'sleep 4; $0 $@' " >
+    </node>
+
+</launch>

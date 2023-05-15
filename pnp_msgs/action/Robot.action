@@ -1,0 +1,8 @@
+# goal
+geometry_msgs/Pose robot_goal
+---
+# result
+string robot_result
+---
+# feedback
+float64 robot_progress

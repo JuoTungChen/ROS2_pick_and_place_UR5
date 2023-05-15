@@ -1,0 +1,21 @@
+<launch>
+
+      <include file="$(find-pkg-share ur5_gripper_moveit_config)/launch/ur5_gripper_moveit.launch.py"/>
+
+      <include file="$(find-pkg-share ur_bringup)/launch/ur_control.launch.py">
+        <arg name="ur_type" value="ur5e"/>
+        <arg name="robot_ip" value="192.168.1.102"/>
+        <arg name="launch_rviz" value="false"/>
+        <arg name="initial_joint_controller" value="joint_trajectory_controller"/>
+      </include>
+
+    <executable         
+        cmd="bash -c 'sleep 3; $0 $@'; ros2 launch moveit_ur5_interface moveit_ur5.launch.py"        
+        cwd="./">    
+    </executable>
+
+    <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" 
+          name="joint_state_publisher_gui" output="screen">
+    </node>    
+
+</launch>
