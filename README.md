@@ -14,6 +14,7 @@ The following Linux version as well as the ROS distribution is required:
 </br>
 
 ## Packages in the Repository:
+
 1. __`moveit_ur5_msgs`__ - custom message package containing one srv message for moveit_ur5_interface.
 2. __`moveit_ur5_interface`__ - a service/client interface to control the UR5 robot using moveit2.
 3. __`pnp_msgs`__ - custom message package containing three action messages for pnp action.
@@ -136,18 +137,28 @@ This package provides a custom action message type to request a pick-and-place a
 There are three action messages in this package:
 
 1. __`Robot.action`__:  
-a. __Goal__: A geometry_msgs/Pose indicating the target pose of the robot
-b. __Result__: A string that specifies a success or failure of the robot action. 
-c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the robot’s motion (0 at the beginning and 1 when completed).
 
-2. __`Gripper.action`__:
-a. __Goal__: A string that indicates if the gripper must open or close.
-b. __Result__: A string that specifies a success or failure of the gripper action. 
-c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the gripper’s motion (0 at the beginning and 1 when completed).
+a. __Goal__: A geometry_msgs/Pose indicating the target pose of the robot  
 
-3. __`PickAndPlace.action`__:  
-a. __Goal__: There are two entries. One corresponds to a target pose where the robot must pick the object (a geometry_msgs/Pose that can be passed to Robot.action). The other corresponds to a target pose where the robot must place the object (also a geometry_msgs/Pose).  
+b. __Result__: A string that specifies a success or failure of the robot action.   
+
+c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the robot’s motion (0 at the beginning and 1 when completed).  
+
+2. __`Gripper.action`__:  
+
+a. __Goal__: A string that indicates if the gripper must open or close.  
+
+b. __Result__: A string that specifies a success or failure of the gripper action.   
+
+c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the gripper’s motion (0 at the beginning and 1 when completed).  
+
+
+3. __`PickAndPlace.action`__:    
+
+a. __Goal__: There are two entries. One corresponds to a target pose where the robot must pick the object (a geometry_msgs/Pose that can be passed to Robot.action). The other corresponds to a target pose where the robot must place the object (also a geometry_msgs/Pose).   
+
 b. __Result__: A string that specifies a success or failure of the pnp action.  
+
 c. __Feedback__: A string that indicates if
     1. the robot is moving to pick the object 
     2. closing the gripper
@@ -271,7 +282,7 @@ After that, launch the moveit_config using the following command:
     ```
     ros2 launch ur5_gripper_moveit_config ur5_gripper_moveit.launch.py
     ```  
-    
+
 You can now use the interactive marker to drag around the end effector to desired pose and plan and execute the motion for the robot. 
 
 </br>
