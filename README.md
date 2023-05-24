@@ -138,32 +138,32 @@ There are three action messages in this package:
 
 1. __`Robot.action`__:  
 
-a. __Goal__: A geometry_msgs/Pose indicating the target pose of the robot  
+    a. __Goal__: A geometry_msgs/Pose indicating the target pose of the robot  
 
-b. __Result__: A string that specifies a success or failure of the robot action.   
+    b. __Result__: A string that specifies a success or failure of the robot action.   
 
-c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the robot’s motion (0 at the beginning and 1 when completed).  
+    c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the robot’s motion (0 at the beginning and 1 when completed).  
 
 2. __`Gripper.action`__:  
 
-a. __Goal__: A string that indicates if the gripper must open or close.  
+    a. __Goal__: A string that indicates if the gripper must open or close.  
 
-b. __Result__: A string that specifies a success or failure of the gripper action.   
+    b. __Result__: A string that specifies a success or failure of the gripper action.   
 
-c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the gripper’s motion (0 at the beginning and 1 when completed).  
+    c. __Feedback__: A floating point value between 0 and 1 that represents the progress of the gripper’s motion (0 at the beginning and 1 when completed).  
 
 
 3. __`PickAndPlace.action`__:    
 
-a. __Goal__: There are two entries. One corresponds to a target pose where the robot must pick the object (a geometry_msgs/Pose that can be passed to Robot.action). The other corresponds to a target pose where the robot must place the object (also a geometry_msgs/Pose).   
+    a. __Goal__: There are two entries. One corresponds to a target pose where the robot must pick the object (a geometry_msgs/Pose that can be passed to Robot.action). The other corresponds to a target pose where the robot must place the object (also a geometry_msgs/Pose).   
 
-b. __Result__: A string that specifies a success or failure of the pnp action.  
+    b. __Result__: A string that specifies a success or failure of the pnp action.  
 
-c. __Feedback__: A string that indicates if
-    1. the robot is moving to pick the object 
-    2. closing the gripper
-    3. moving to place the object  
-    4. opening the gripper.
+    c. __Feedback__: A string that indicates if
+        1. the robot is moving to pick the object 
+        2. closing the gripper
+        3. moving to place the object  
+        4. opening the gripper.
 
 </br>
 
